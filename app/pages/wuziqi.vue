@@ -1,5 +1,10 @@
 <script setup>
 const visible = ref(false)
+
+/**
+ * 网格宽度计算
+ */
+
 const cellLen = ref('30px')
 
 onMounted(() => {
@@ -134,7 +139,7 @@ function checkDiagonal() {
   </div>
 </template>
 
-<style>
+<style scoped>
 #panel {
   --cellLen: v-bind(cellLen);
   /* --cellLen: calc(min(100vw, 500px) / 15 * 0.8); */
