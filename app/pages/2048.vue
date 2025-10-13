@@ -8,6 +8,8 @@ useHead({
   link: [{ rel: 'icon', type: 'image/svg', href: '/2048.svg' }]
 })
 
+let addArrowListener, removeArrowListener
+
 const BLACK_VALUE = null
 
 const status = ref('initial')
@@ -17,32 +19,25 @@ const data = ref(Array.from({ length: 4 }).map(() =>
 ))
 
 onMounted(() => {
+  ;({ addArrowListener, removeArrowListener } = useArrow(handleStep, 'body'))
   data.value[0][1] = 2
   data.value[1][3] = 2
-  document.addEventListener('keyup', handleKeyup)
+  addArrowListener()
 })
 onBeforeUnmount(() => {
-  document.removeEventListener('keyup', handleKeyup)
+  removeArrowListener()
 })
-
-// 键盘事件处理
-function handleKeyup(e) {
-  // 忽略非方向按键事件
-  if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.code)) return
-  e.stopPropagation()
-  handleStep(e.code)
-}
 
 function handleStep(code) {
   if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(code)) return
   if (status.value === 'failed') {
-    alert('Game Over')
+    shining('Game Over')
     return
   }
   if (loading.value) return
   loading.value = true
   moveAndMerge(code).catch((err) => {
-    alert(err?.message || '未知错误')
+    shining(err?.message || '未知错误')
   }).finally(() => {
     loading.value = false
   })

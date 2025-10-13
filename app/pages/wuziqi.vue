@@ -46,17 +46,11 @@ function handlePlay(rowIdx, colIdx) {
   if (data.value[rowIdx][colIdx]) return
   data.value[rowIdx][colIdx] = player.value
   if (checkWin()) {
-    handleGameOver()
+    shining(`Player ${player.value} win!`)
+    initData()
     return
   }
   trigglePlayer()
-}
-
-function handleGameOver() {
-  setTimeout(() => {
-    alert(`Player ${player.value} win!`)
-    initData()
-  }, 50)
 }
 
 function initData() {

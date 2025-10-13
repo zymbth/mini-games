@@ -203,7 +203,7 @@ function reverseDirection(direction) {
 
 <template>
   <div class="full-height bg-white box-border p-4">
-    <!-- <h1 class="text-center text-2.4em">贪吃蛇</h1> -->
+    <h1 class="text-center text-2.4em">贪吃蛇</h1>
     <div v-show="visible" flex="~ justify-center items-center">
       <div id="panel" :class="[status]">
         <div v-if="['init', 'paused', 'gameover', 'win'].includes(status)" class="overlay">
