@@ -1,11 +1,18 @@
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue'
+useHead({
+  title: '2048',
+  meta: [
+    { name: 'description', content: '2048小游戏网页版' },
+    { name: 'keywords', content: '2048,游戏,在线,单机' }
+  ],
+  link: [{ rel: 'icon', type: 'image/svg', href: '/2048.svg' }]
+})
 
 const BLACK_VALUE = null
 
 const status = ref('initial')
 const loading = ref(false)
-const data = ref(Array.from({ length: 4 }).map(_ =>
+const data = ref(Array.from({ length: 4 }).map(() =>
   Array.from({ length: 4 }).fill(BLACK_VALUE)
 ))
 

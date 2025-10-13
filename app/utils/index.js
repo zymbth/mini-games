@@ -6,9 +6,11 @@ export function shining(message, color = 'rgb(50, 177, 108)', fontSize = 'xxx-la
     position: fixed;
     top: 50%;
     left: 50%;
+    width: 90vw;
     color: ${color};
     font-size: ${fontSize};
     font-weight: bold;
+    text-align: center;
     transform: translate(-50%, -50%);
     user-select: none;
     z-index: 2002;
@@ -25,4 +27,16 @@ export function shining(message, color = 'rgb(50, 177, 108)', fontSize = 'xxx-la
     }
   )
   setTimeout(() => i.remove(), 2500)
+}
+
+export function isMobileDevice() {
+  return /Android|webOS|iPhone|iPad|iPod|Macintosh|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+}
+
+export function isMobileViewport() {
+  return window.matchMedia('(max-width: 767px)').matches
+}
+
+export function isMobile() {
+  return isMobileDevice() && isMobileViewport()
 }

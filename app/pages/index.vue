@@ -6,6 +6,17 @@
   </div>
 </template>
 
+<script setup>
+useHead({
+  title: '网页小游戏',
+  meta: [
+    { name: 'description', content: '网页小游戏' },
+    { name: 'keywords', content: '游戏,在线,单机,网页' }
+  ],
+  link: [{ rel: 'icon', type: 'image/svg', href: '/icon.svg' }]
+})
+</script>
+
 <style>
 @import '../assets/css/index.css';
 </style>

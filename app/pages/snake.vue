@@ -1,4 +1,13 @@
 <script setup type="ts">
+useHead({
+  title: '贪吃蛇',
+  meta: [
+    { name: 'description', content: '贪吃蛇小游戏网页版' },
+    { name: 'keywords', content: '贪吃蛇,游戏,在线,单机' }
+  ],
+  link: [{ rel: 'icon', type: 'image/svg', href: '/tanchishe.svg' }]
+})
+
 const GRID_SIZE = 24
 const visible = ref(false)
 
@@ -8,14 +17,17 @@ const visible = ref(false)
 
 const cellLen = ref('18px')
 
+let addArrowListener, removeArrowListener
+
 onMounted(() => {
+  ;({ addArrowListener, removeArrowListener } = useArrow(recodeDirectives, 'body'))
   handleResize()
   visible.value = true
   window.addEventListener('resize', handleResize)
 })
 onUnmounted(() => {
   window.removeEventListener('resize', handleResize)
-  window.removeEventListener('keyup', handleKeyup)
+  removeArrowListener?.()
 })
 
 function handleResize() {
@@ -39,13 +51,11 @@ const snake = ref([]) // 蛇头在最后
 let stepInterval
 const prevArrow = ref()
 const currArrows = ref([])
-function handleKeyup(e) {
+function recodeDirectives(code) {
   if(status.value !== 'playing') return
   // 忽略非方向按键事件
-  if (!directions.includes(e.code)) return
-  e.stopPropagation()
-  // step(e.code)
-  currArrows.value.push(e.code)
+  if (!directions.includes(code)) return
+  currArrows.value.push(code)
   if(currArrows.value.length > 2) currArrows.value.shift()
 }
 function startInterval() {
@@ -110,21 +120,21 @@ function init() {
 function start() {
   if(!['init', 'paused'].includes(status.value)) return
   status.value = 'playing'
-  window.addEventListener('keyup', handleKeyup)
+  addArrowListener?.()
   // 恢复自动步进
   startInterval()
 }
 function pause() {
   if(status.value !== 'playing') return
   status.value = 'paused'
-  window.removeEventListener('keyup', handleKeyup)
+  removeArrowListener?.()
   // 停止自动步进
   stopInterval()
 }
 function stop(s) {
   if(!['paused', 'playing'].includes(status.value) || !['gameover', 'win'].includes(s)) return
   status.value = s
-  window.removeEventListener('keyup', handleKeyup)
+  removeArrowListener?.()
 }
 function step(direction) {
   if(status.value !== 'playing') return

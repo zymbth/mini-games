@@ -1,4 +1,13 @@
 <script setup>
+useHead({
+  title: '五子棋',
+  meta: [
+    { name: 'description', content: '五子棋小游戏网页版' },
+    { name: 'keywords', content: '五子棋,游戏,在线,单机' }
+  ],
+  link: [{ rel: 'icon', type: 'image/svg', href: '/wuziqi.svg' }]
+})
+
 const visible = ref(false)
 
 /**
