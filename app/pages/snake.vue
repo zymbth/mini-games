@@ -11,33 +11,16 @@ useHead({
 const GRID_SIZE = 24
 const visible = ref(false)
 
-/**
- * 网格宽度计算
- */
-
-const cellLen = ref('18px')
-
 let addArrowListener, removeArrowListener
 
 onMounted(() => {
   ;({ addArrowListener, removeArrowListener } = useArrow(recodeDirectives, 'body'))
-  handleResize()
   visible.value = true
-  window.addEventListener('resize', handleResize)
 })
 onUnmounted(() => {
-  window.removeEventListener('resize', handleResize)
   removeArrowListener?.()
 })
 
-function handleResize() {
-  try {
-    const tmp = Math.round(Math.min(window.innerWidth * 0.8, window.innerHeight * 0.5) / GRID_SIZE) + 'px'
-    cellLen.value = tmp
-  } catch (error) {
-    console.error(error)
-  }
-}
 
 const directions = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight']
 const status = ref('init')
@@ -237,7 +220,7 @@ function reverseDirection(direction) {
 
 <style scoped>
 #panel {
-  --cellLen: v-bind(cellLen);
+  --cellLen: clamp(10px, calc(min(90vw, 70vh) / 24), 36px);
   position: relative;
   display: grid;
   grid-template-columns: repeat(v-bind(GRID_SIZE), var(--cellLen));
